@@ -6,7 +6,7 @@
 /*   By: lyahasik <lyahasik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/29 17:40:33 by lyahasik          #+#    #+#             */
-/*   Updated: 2020/12/31 12:03:00 by lyahasik         ###   ########.fr       */
+/*   Updated: 2020/12/31 16:38:52 by lyahasik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_symbol_board(t_board *board, char c)
 	}
 }
 
-int	allocation_board(t_board *board)
+static int	allocation_board(t_board *board)
 {
 	int	i;
 
@@ -48,7 +48,7 @@ int	allocation_board(t_board *board)
 	return (1);
 }
 
-static int	fill_cells_board(t_board *board, char *line, int fd, FILE *file)
+static int	fill_cells_board(t_board *board, char *line)
 {
 	int	i;
 	int	j;
@@ -58,35 +58,30 @@ static int	fill_cells_board(t_board *board, char *line, int fd, FILE *file)
 	i = -1;
 	while (++i < board->height)
 	{
-		line = next_line(line, fd);
-		// fputs(ft_strjoin(line, "\n"), file);
+		free(line);
+		get_next_line(0, &line);
 		j = -1;
 		while (++j < board->width)
 		{
 			board->cells[i][j] = check_symbol_board(board, *(line + j + 4));
 		}
-		free(line);
 	}
+	free(line);
 	return (1);
 }
 
-int		read_board(t_board *board, char *line, int fd, FILE *file)
+int			read_board(t_board *board, char *line)
 {
 	char	*number;
 
-	//printf("%s\n", line);
-	// parametrs = ft_strsplit(line + 7, ' ');
 	number = ft_strchr(line, ' ');
 	board->height = ft_atoi(number);
 	number = ft_strchr(number + 1, ' ');
 	board->width = ft_atoi(number);
-	line = next_line(line, fd);
-	// fputs(ft_strjoin(line, "\n"), file);
-	// fputs(ft_strjoin(ft_itoa(board->height), ft_itoa(board->width)), file);
-	// fputs("\n", file);
-	if (!fill_cells_board(board, line, fd, file))
+	free(line);
+	get_next_line(0, &line);
+	if (!fill_cells_board(board, line))
 		return (0);
-	// write(1, "read_board\n", 12);
-	heat_map(board, file);
+	heat_map(board);
 	return (1);
 }

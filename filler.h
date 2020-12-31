@@ -6,7 +6,7 @@
 /*   By: lyahasik <lyahasik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:00:40 by dhorker           #+#    #+#             */
-/*   Updated: 2020/12/30 19:28:18 by lyahasik         ###   ########.fr       */
+/*   Updated: 2020/12/31 16:34:50 by lyahasik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ typedef struct	s_board
 
 typedef struct	s_token
 {
+	t_vector2	begin;
 	t_vector2	suitable_point;
-	int			max;
+	int			min;
+	int			check;
 	int			height;
 	int			width;
 	int			**cells;
@@ -48,34 +50,28 @@ typedef struct	s_token
 }				t_token;
 
 /*
-** Parser
-*/
-
-char			*next_line(char *line, int fd);
-
-/*
 ** Player
 */
 
-void			identify_player(char *player, int fd);
+void			identify_player(char *player);
 
 /*
 ** Board
 */
 
-int				read_board(t_board *board, char *line, int fd, FILE *file);
+int				read_board(t_board *board, char *line);
 
 /*
 ** Heat_map
 */
 
-void			heat_map(t_board *board, FILE *file);
+void			heat_map(t_board *board);
 
 /*
 ** Token
 */
 
-int				read_token(t_token *token, char *line, int fd, FILE *file);
+int				read_token(t_token *token, char *line);
 
 /*
 ** Indents
@@ -94,12 +90,6 @@ int				free_board(t_board *board);
 ** Insert
 */
 
-int			insert_token(t_board *board, t_token *token, FILE *file);
-
-void			step(t_board *board, t_vector2 enemy, int y, int x);
-int				search_max(t_board *board, t_vector2 enemy);
-void	output_board(t_board *board, FILE *file);
-void	output_token(t_token *token, FILE *file);
-
+int				insert_token(t_board *board, t_token *token);
 
 #endif

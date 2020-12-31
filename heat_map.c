@@ -6,44 +6,13 @@
 /*   By: lyahasik <lyahasik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/29 18:25:44 by lyahasik          #+#    #+#             */
-/*   Updated: 2020/12/30 19:24:44 by lyahasik         ###   ########.fr       */
+/*   Updated: 2020/12/31 16:38:33 by lyahasik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-// void	search_enemy(t_board *board, t_vector2 *enemy)
-// {
-// 	enemy->y = 0;
-// 	while (enemy->y < board->height)
-// 	{
-// 		enemy->x = 0;
-// 		while (enemy->x < board->width)
-// 		{
-// 			if (board->cells[enemy->y][enemy->x] == 1000)
-// 				return ;
-// 			enemy->x++;
-// 		}
-// 		enemy->y++;
-// 	}
-// }
-
-// void	temperature_drop(t_board *board, t_vector2 enemy)
-// {
-// 	//output_board(*board);
-// 	//printf("%d\n", board->cells[enemy.y][enemy.x]);
-// 	if (board->cells[enemy.y][enemy.x] != 1000)
-// 	{
-// 		board->cells[enemy.y][enemy.x] = search_max(board, enemy) - 1;
-// 	}
-// 	step(board, enemy, 1, 0);
-// 	step(board, enemy, -1, 0);
-// 	step(board, enemy, 0, 1);
-// 	step(board, enemy, 0, -1);
-// 	return ;
-// }
-
-void	first_step_temperature(t_board *board)
+static void	first_step_temperature(t_board *board)
 {
 	int	x;
 	int	y;
@@ -65,7 +34,7 @@ void	first_step_temperature(t_board *board)
 	}
 }
 
-int	steps_temperature(t_board *board, int size)
+static int	steps_temperature(t_board *board, int size)
 {
 	int	x;
 	int	y;
@@ -93,18 +62,14 @@ int	steps_temperature(t_board *board, int size)
 	return ((empty == 1) ? size : 0);
 }
 
-void	heat_map(t_board *board, FILE *file)
+void		heat_map(t_board *board)
 {
 	int	size;
 
 	first_step_temperature(board);
-	// output_board(board, file);
 	size = 1;
 	while ((size = steps_temperature(board, size)) != 0)
 	{
-		// fputs("\n", file);
-		// output_board(board, file);
 		size++;
 	}
-	// output_board(board, file);
 }
